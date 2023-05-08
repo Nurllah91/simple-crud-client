@@ -1,9 +1,11 @@
 
+import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 const Users = () => {
 
-    const users = useLoaderData();
+    const loadedUsers = useLoaderData();
+    const [users, setUsers] = useState(loadedUsers)
 
     const handleDeleteUser = _id =>{
         console.log(_id);
@@ -14,7 +16,9 @@ const Users = () => {
         .then(res =>res.json())
         .then(data =>{
             if(data.deletedCount > 0){
-                alert('User deleted successfully')
+                alert('User deleted successfully');
+                const remaining = users.filter(user =>user._id !== _id);
+                setUsers(remaining);
             }
         })
     }
